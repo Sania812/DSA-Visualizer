@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Algorithm Visualizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-badge">&lt;/&gt;</div>
+                <div class="brand-text">
+                    <h1>AlgoVis</h1>
+                    <span class="sub-label">DSA Interactive Lab</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="section-label">SORTING</span>
+                    <button class="nav-link active" data-algo="bubbleSort">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16M4 15h12M4 11h8M4 7h4"/></svg>
+                        Bubble Sort
+                    </button>
+                    <button class="nav-link" data-algo="selectionSort">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+                        Selection Sort
+                    </button>
+                    <button class="nav-link" data-algo="insertionSort">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        Insertion Sort
+                    </button>
+                    <button class="nav-link" data-algo="quickSort">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        Quick Sort
+                    </button>
+                    <button class="nav-link" data-algo="mergeSort">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v12s0 3 3 3h6s3 0 3-3V3M12 18v3"/></svg>
+                        Merge Sort
+                    </button>
+                </div>
+
+                <div class="nav-section">
+                    <span class="section-label">SEARCHING</span>
+                    <button class="nav-link" data-algo="linearSearch">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        Linear Search
+                    </button>
+                    <button class="nav-link" data-algo="binarySearch">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 6H3M21 12H3M21 18H3"/></svg>
+                        Binary Search
+                    </button>
+                </div>
+
+                <div class="nav-section">
+                    <span class="section-label">GRAPH ALGORITHMS</span>
+                    <button class="nav-link" data-algo="bfs">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><line x1="8.5" y1="7.5" x2="15.5" y2="7.5"/><line x1="7.5" y1="8.5" x2="10.5" y2="15.5"/><line x1="16.5" y1="8.5" x2="13.5" y2="15.5"/></svg>
+                        BFS (Breadth First)
+                    </button>
+                    <button class="nav-link" data-algo="dfs">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v8M12 14v8M6 8l12 8M18 8L6 16"/></svg>
+                        DFS (Depth First)
+                    </button>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="soundToggle" class="btn-text">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    Sound: ON
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Workbench -->
+        <main class="workbench">
+            <header class="header">
+                <div class="header-info">
+                    <h2 id="algoTitle">Bubble Sort</h2>
+                    <p id="algoSubtitle">Compares adjacent elements and swaps them if they are out of order.</p>
+                </div>
+
+                <div class="toolbar">
+                    <!-- Array Controls -->
+                    <div id="arrayControls" class="tool-group">
+                        <div class="tool-item">
+                            <label>Array Size (<span id="sizeVal">25</span>)</label>
+                            <input type="range" id="arraySize" min="8" max="50" value="25">
+                        </div>
+
+                        <div class="tool-item">
+                            <label>Preset</label>
+                            <select id="arrayPreset">
+                                <option value="random">Random</option>
+                                <option value="reversed">Reversed</option>
+                                <option value="nearlySorted">Nearly Sorted</option>
+                            </select>
+                        </div>
+
+                        <div class="tool-item search-target-item hidden" id="targetControl">
+                            <label>Target Value</label>
+                            <input type="number" id="targetInput" value="42" min="1" max="100">
+                        </div>
+
+                        <button id="customInputBtn" class="btn btn-secondary">Custom Array</button>
+                        <button id="randomizeBtn" class="btn btn-secondary">Generate</button>
+                    </div>
+
+                    <!-- Graph Controls -->
+                    <div id="graphControls" class="tool-group hidden">
+                        <button id="clearGridBtn" class="btn btn-secondary">Clear Path</button>
+                        <button id="resetWallsBtn" class="btn btn-secondary">Clear Walls</button>
+                        <button id="randomWallsBtn" class="btn btn-secondary">Random Walls</button>
+                    </div>
+
+                    <div class="tool-group divider-left">
+                        <div class="tool-item">
+                            <label>Speed</label>
+                            <input type="range" id="speed" min="1" max="10" value="6">
+                        </div>
+
+                        <button id="playBtn" class="btn btn-primary">Run</button>
+                        <button id="pauseBtn" class="btn btn-warning" disabled>Pause</button>
+                        <button id="stepBtn" class="btn btn-secondary" disabled>Step</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Custom Input Modal / Collapsible bar -->
+            <div id="customInputPanel" class="custom-input-bar hidden">
+                <label for="customArrayStr">Enter comma-separated numbers (1-100):</label>
+                <div class="input-row">
+                    <input type="text" id="customArrayStr" placeholder="e.g. 45, 12, 89, 34, 67, 23, 90">
+                    <button id="applyCustomBtn" class="btn btn-primary">Apply</button>
+                    <button id="cancelCustomBtn" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Workspace View -->
+            <div class="workspace-grid">
+                <!-- Visualizer Viewport -->
+                <div class="viewport-card">
+                    <div class="card-bar">
+                        <span class="card-heading">Visualizer</span>
+                        <div class="legend-list" id="legend"></div>
+                    </div>
+                    <div class="viewport-canvas">
+                        <div id="arrayCanvas" class="array-container"></div>
+                        <div id="graphCanvas" class="graph-container hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Right Details Column -->
+                <div class="details-column">
+                    <!-- Metrics -->
+                    <div class="detail-card">
+                        <div class="card-bar"><span class="card-heading">Execution Metrics</span></div>
+                        <div class="metrics-row">
+                            <div class="metric-box">
+                                <span class="metric-lbl">Comparisons</span>
+                                <span class="metric-val" id="statComparisons">0</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-lbl">Swaps / Visits</span>
+                                <span class="metric-val" id="statSwaps">0</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-lbl">Status</span>
+                                <span class="status-tag" id="statStatus">Idle</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Complexity -->
+                    <div class="detail-card">
+                        <div class="card-bar"><span class="card-heading">Complexity Analysis</span></div>
+                        <div class="complexity-table">
+                            <div class="comp-row"><span>Best Case</span><code id="compBest">O(n)</code></div>
+                            <div class="comp-row"><span>Average Case</span><code id="compAvg">O(n²)</code></div>
+                            <div class="comp-row"><span>Worst Case</span><code id="compWorst">O(n²)</code></div>
+                            <div class="comp-row"><span>Space</span><code id="compSpace">O(1)</code></div>
+                        </div>
+                    </div>
+
+                    <!-- Code / Pseudocode -->
+                    <div class="detail-card flex-fill">
+                        <div class="card-bar"><span class="card-heading">Implementation</span></div>
+                        <pre class="code-view"><code id="codeBlock"></code></pre>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
